@@ -1,0 +1,19 @@
+{
+  "name": "Twitch HTML5",
+  "description": "Force Twitch.tv to use HTML5 video instead of Flash",
+  "version": "0.1",
+  "permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*.twitch.tv/*", "http://*.twitch.tv/*"],
+      "js": ["hls-modified.js", "twitch.js", "jquery-2.2.4.min.js", "contentscript.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "manifest_version": 2
+}
