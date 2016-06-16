@@ -84,6 +84,11 @@ $(window).ready(function() {
 
     var channel = $('meta[property="og:url"]').attr("content").split("https://www.twitch.tv/")[1];
 
+    //VOD or live channel, only live currently implemented here
+    if(channel.indexOf("/") > -1){
+        return;
+    }
+
     getPlaylistLink(channel, function (err, playlistLink) {
         if (err) {
             console.log(err);

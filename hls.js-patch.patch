@@ -1,0 +1,50 @@
+Index: hls.js
+===================================================================
+--- hls.js	(revision )
++++ hls-modified.js	(revision )
+@@ -6283,8 +6283,8 @@
+     }
+   }, {
+     key: 'loadsuccess',
+-    value: function loadsuccess(event, stats) {
+-      var payload = event.currentTarget.response;
++    value: function loadsuccess(data, stats) {
++      var payload = data.response;
+       stats.length = payload.byteLength;
+       // detach fragment loader on load success
+       this.frag.loader = undefined;
+@@ -6391,9 +6391,9 @@
+     }
+   }, {
+     key: 'loadsuccess',
+-    value: function loadsuccess(event) {
++    value: function loadsuccess(data) {
+       var frag = this.frag;
+-      this.decryptkey = frag.decryptdata.key = new Uint8Array(event.currentTarget.response);
++      this.decryptkey = frag.decryptdata.key = new Uint8Array(data.response);
+       // detach fragment loader on load success
+       frag.loader = undefined;
+       this.hls.trigger(_events2.default.KEY_LOADED, { frag: frag });
+@@ -6701,10 +6701,9 @@
+     }
+   }, {
+     key: 'loadsuccess',
+-    value: function loadsuccess(event, stats) {
+-      var target = event.currentTarget,
+-          string = target.responseText,
+-          url = target.responseURL,
++    value: function loadsuccess(data, stats) {
++      var string = data.responseText,
++          url = data.responseURL,
+           id = this.id,
+           id2 = this.id2,
+           hls = this.hls,
+@@ -6717,7 +6716,7 @@
+         url = this.url;
+       }
+       stats.tload = performance.now();
+-      stats.mtime = new Date(target.getResponseHeader('Last-Modified'));
++      stats.mtime = data.mtime;
+       if (string.indexOf('#EXTM3U') === 0) {
+         if (string.indexOf('#EXTINF:') > 0) {
+           // 1 level playlist
