@@ -10,6 +10,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             })
         }, request.timeout);
 
+    request.stats.trequest = performance.now();
     request.stats.tfirst = null;
     request.stats.loaded = 0;
 
@@ -30,6 +31,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 clearTimeout(timeout);
 
+                request.stats.tload = performance.now();
+                
                 var blob = new Blob([xhr.response]);
                 var link = URL.createObjectURL(blob);
 
@@ -43,9 +46,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
                     stats: request.stats
                 });
 
-                setTimeout( function() {
-                    URL.revokeObjectURL(link);
-                }, 2000);
             } else {
                 // error ...
                 if (request.stats.retry < request.maxRetry) {
